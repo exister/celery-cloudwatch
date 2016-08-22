@@ -1,8 +1,10 @@
 from celery import Celery
-from state import State
-from camera import CameraFactory
-
 from pprint import PrettyPrinter
+
+from .state import State
+from .camera import CameraFactory
+
+
 pp = PrettyPrinter()
 
 
@@ -46,6 +48,6 @@ class TaskMonitor(object):
            return fn
         else:
             def proxy_event_fn(event):
-                print '[{}] - {}'.format(event_name, pp.pformat(event))
+                print('[{}] - {}'.format(event_name, pp.pformat(event)))
                 return fn(event)
             return proxy_event_fn

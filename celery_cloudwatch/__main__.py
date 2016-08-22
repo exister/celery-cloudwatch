@@ -6,13 +6,13 @@ import six
 import logging
 import logging.config
 
-from . import TaskMonitor
+from .task_monitor import TaskMonitor
 
 
 config_schema = v.Schema({
     v.Optional('ccwatch', default={}): v.Schema({
-        v.Optional('broker', default=None): v.Any(None, six.binary_type),
-        v.Optional('camera', default="celery_cloudwatch.CloudWatchCamera"): v.Any(str, six.binary_type),
+        v.Optional('broker', default=None): v.Any(None, six.string_types[0]),
+        v.Optional('camera', default="celery_cloudwatch.CloudWatchCamera"): v.Any(str, six.string_types[0]),
         v.Optional('verbose', default=False): bool
     }, extra=False),
     v.Optional('camera', default={}): v.Schema({
@@ -21,20 +21,21 @@ config_schema = v.Schema({
     }, extra=False),
     v.Optional('cloudwatch-camera', default={}): v.Schema({
         v.Optional('dryrun', default=False): bool,
-        v.Optional('namespace', default='celery'): six.binary_type,
+        v.Optional('namespace', default='celery'): six.string_types[0],
         v.Optional('tasks', default=[]): v.Schema([
-            six.binary_type, v.Schema({
-                'name': six.binary_type,
+            six.string_types[0],
+            v.Schema({
+                'name': six.string_types[0],
                 'dimensions': v.Schema({
-                    v.Extra: six.binary_type
+                    v.Extra: six.string_types[0]
                 }, extra=True)
             }, extra=False)
         ]),
         v.Optional('task-groups', default=[]): [
             v.Schema({
-                'tasks': [six.binary_type],
+                'tasks': [six.string_types[0]],
                 'dimensions': v.Schema({
-                    v.Extra: six.binary_type
+                    v.Extra: six.string_types[0]
                 })
             })
         ],
@@ -61,7 +62,6 @@ def main():
 
     if args.logging_config and os.path.isfile(args.logging_config):
         logging.config.fileConfig(args.logging_config)
-
 
     # voluptuous doesn't validate that `default=` values match the schema
     #  lets just run it through twice, to make sure everything is set.

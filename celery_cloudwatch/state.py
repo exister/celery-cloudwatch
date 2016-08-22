@@ -4,7 +4,7 @@ import threading
 from operator import itemgetter
 from collections import defaultdict, OrderedDict
 
-from stats import Stats
+from .stats import Stats
 
 
 class State(object):
@@ -32,10 +32,10 @@ class State(object):
             try:
                 return fun(*args, **kwargs)
             except:
-                print "Exception in user code:"
-                print '-'*60
+                print("Exception in user code:")
+                print('-'*60)
                 traceback.print_exc(file=sys.stdout)
-                print '-'*60
+                print('-'*60)
             finally:
                 if clear_after:
                     self._clear()
