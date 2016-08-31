@@ -14,7 +14,7 @@ def read_markdown(filename):
 
 setup(
     name='celery-cloudwatch',
-    version='1.1.0a',
+    version='1.1.1',
 
     author='Nathan Muir',
     author_email='ndmuir@gmail.com',
